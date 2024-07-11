@@ -1,9 +1,9 @@
 {% extends "encyclopedia/layout.html" %}
 
 {% block title %}
-    Hey
+    Wiki - {{ title }}
 {% endblock %}
 
 {% block body %}
-    <h1>{% entry %}</h1>
+    {{ entry|safe }}
 {% endblock %}
