@@ -19,3 +19,16 @@ def entry(request, entry):
         "entry": httpContent
     })
 
+def random(request, random):
+    all_content = util.list_entries()
+    random = all_content[random(0,len(all_content))]
+    content = util.get_entry(random)
+
+    if content == None:
+        raise Http404
+    
+    httpContent = markdown.markdown(content)
+    return render(request, "encyclopedia/random.html", {
+        "title": random.capitalize(),
+        "entry": httpContent
+    })
