@@ -22,16 +22,18 @@ def entry(request, entry):
     })
 
 class newPage(forms.Form):
-    entry_title = forms.CharField(label="New Page Title", required=True)
-    entry_content = forms.CharField(widget=forms.Textarea, label="Content", required=True)
+    entry_title = forms.CharField(label="New Page Title", required=True,  widget=forms.TextInput(attrs={'class': 'form-title'}))
+    entry_content = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-content'}), label="Content", required=True)
 
 def create(request):
     all_entries = util.list_entries()
+    for i in all_entries:
+        i.capitalize()
 
     if request.method == 'POST':
         new_page = newPage(request.POST)
         if new_page.is_valid():
-            entry_title = new_page.cleaned_data["entry_title"]
+            entry_title = new_page.cleaned_data["entry_title"].capitalize()
             entry_content = new_page.cleaned_data["entry_content"]
             if entry_title not in all_entries:
                 util.save_entry(entry_title, entry_content)
