@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("<str:entry>", views.entry, name="entry"),
-    path("create", views.create, name="create")
+    path("create", views.create, name="create"),
+    path("<str:entry>", views.entry, name="entry")
     # path("<str:random>", views.random, name="random")
 ]

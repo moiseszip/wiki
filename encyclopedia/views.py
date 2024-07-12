@@ -23,7 +23,7 @@ def entry(request, entry):
 
 class newPage(forms.Form):
     entry_title = forms.CharField(label="New Page Title", required=True)
-    entry_content = forms.Textarea()
+    entry_content = forms.CharField(widget=forms.Textarea, label="Content", required=True)
 
 def create(request):
     all_entries = util.list_entries()
