@@ -55,3 +55,16 @@ def random_page(request):
     entry = entries[i]
     
     return HttpResponseRedirect(reverse('entry', args=[entry]))
+
+def search(request, q):
+    return HttpResponseRedirect(reverse('q', args=[entry]))
+
+    content = util.get_entry(entry)
+    if content is None:
+        raise Http404
+
+    httpContent = markdown.markdown(content)
+    return render(request, "encyclopedia/entry.html", {
+        "title": entry.capitalize(),
+        "entry": httpContent
+    })
