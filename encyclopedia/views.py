@@ -4,6 +4,7 @@ from . import util
 import markdown
 from django import forms
 from django.urls import reverse
+from random import randint
 
 def index(request):
     return render(request, "encyclopedia/index.html", {
@@ -12,7 +13,7 @@ def index(request):
 
 def entry(request, entry):
     content = util.get_entry(entry)
-    if content == None:
+    if content is None:
         raise Http404
 
     httpContent = markdown.markdown(content)
@@ -45,18 +46,12 @@ def create(request):
         "form": new_page
     })
 
-def random(request, random):
-    all_content = util.list_entries()
-    random = all_content[random(0,len(all_content))]
-    content = util.get_entry(random)
-
-    if content == None:
-        raise Http404
+def random_page(request):
+    entries = util.list_entries()
+    if entries == None:
+        raise Http404("No entries found")
     
-    httpContent = markdown.markdown(content)
-    return render(request, "encyclopedia/random.html", {
-        "title": random.capitalize(),
-        "entry": httpContent
-    })
-
-    return HttpResponseRedirect(reverse("tasks:index"))
+    i = randint(0, len(entries) - 1)
+    entry = entries[i]
+    
+    return HttpResponseRedirect(reverse('entry', args=[entry]))
