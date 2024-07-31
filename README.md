@@ -22,10 +22,6 @@ Web encyclopedia, where users can search, read, edit and create pages</p>
 - Django
 - Python
 
-## 💻 Project
-
-- [View the final project, online](https://moiseszip.github.io/wiki)
-
 ## 📃 License
 
 This project is under MIT license.
