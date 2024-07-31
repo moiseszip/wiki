@@ -84,7 +84,6 @@ def search(request):
         })
 
 class editPage(forms.Form):
-    entry_title = forms.CharField(label="Page Title", required=True,  widget=forms.TextInput(attrs={'class': 'form-title'}))
     entry_content = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-content'}), label="Content", required=True)
 
 def edit(request, entry):
@@ -95,14 +94,12 @@ def edit(request, entry):
     if request.method == 'POST':
         edit_page = editPage(request.POST)
         if edit_page.is_valid():
-            entry_title = edit_page.cleaned_data["entry_title"]
             entry_content = edit_page.cleaned_data["entry_content"]
-            util.save_entry(entry_title, entry_content)
-            return HttpResponseRedirect(reverse('entry', args=[entry_title]))
+            util.save_entry(entry, entry_content)
+            return HttpResponseRedirect(reverse('entry', args=[entry]))
 
     else:
         initial_data = {
-            'entry_title': entry,
             'entry_content': content
         }
         edit_page = editPage(initial=initial_data)
