@@ -5,5 +5,11 @@
 {% endblock %}
 
 {% block body %}
-    {{ entry|safe }}
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Confirm</button>
+    </form>
 {% endblock %}

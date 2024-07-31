@@ -56,18 +56,32 @@ def random_page(request):
     
     return HttpResponseRedirect(reverse('entry', args=[entry]))
 
-# def search(request, q):
-#     return HttpResponseRedirect(reverse('entry', args=[entry]))
+def search(request):
+    query = request.GET.get('q', '').strip()
+    if query:
+        all_entries = util.list_entries()
+        exact_match = None
+        partial_matches = []
 
-#     content = util.get_entry(entry)
-#     if content is None:
-#         raise Http404
+        for entry in all_entries:
+            if query.lower() == entry.lower():
+                exact_match = entry
+                break
+            elif query.lower() in entry.lower():
+                partial_matches.append(entry)
 
-#     httpContent = markdown.markdown(content)
-#     return render(request, "encyclopedia/entry.html", {
-#         "title": entry.capitalize(),
-#         "entry": httpContent
-#     })
+        if exact_match:
+            return HttpResponseRedirect(reverse('entry', args=[exact_match]))
+        else:
+            return render(request, "encyclopedia/search.html", {
+                "query": query,
+                "results": partial_matches
+            })
+    else:
+        return render(request, "encyclopedia/search.html", {
+            "query": query,
+            "results": []
+        })
 
 class editPage(forms.Form):
     entry_title = forms.CharField(label="Page Title", required=True,  widget=forms.TextInput(attrs={'class': 'form-title'}))
